@@ -8,5 +8,8 @@ router.post('/', (req, res) => {
     }
     res.status(401).send('Please provide credentials');
 });
+router.get('/error', (req, res) =>{
+    throw new Error('I threw the error');
+});
 
 module.exports = router;
