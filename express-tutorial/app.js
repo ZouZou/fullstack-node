@@ -1,9 +1,24 @@
 const path = require('path');
 const express = require('express');
 const app = express();
-
+const mongoose = require("mongoose");
 const people = require('./routes/people');
+const person = require('./routes/person');
 const auth = require('./routes/auth');
+
+
+const server = 'nodejscluster.t0kwa.mongodb.net'
+const database = 'personDatabase';
+const username = 'zouzou';
+const password = 'zouzouPassword';
+mongoose.connect(
+    `mongodb+srv://${username}:${password}@${server}/${database}?retryWrites=true&w=majority`,
+    {
+        useNewUrlParser: true,
+        // useFindAndModify: false,
+        useUnifiedTopology: true
+    }
+);
 
 // static assets
 app.use(express.static('./methods-public'));
@@ -11,6 +26,7 @@ app.use(express.static('./methods-public'));
 // parse form data
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use('/api/person', person);
 app.use('/api/people', people);
 app.use('/login', auth);
 
